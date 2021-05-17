@@ -1,14 +1,17 @@
 ---
-title: "C-CUBES Stratonomics"
+title: "Don't Confuse Salience with Importance"
 description: |
   A forum to unpack and share the data science embedded in the C-CUBES philosophy .
-author:
-  - name: Hari Sridhar, Ashwin Malshe and Vikas Mittal
+authors:
+  - name: Hari Sridhar, Muzeeb Shaikh, Ashwin Malshe and Vikas Mittal
     url: https://ccubes.net
     affiliation: C-CUBES
     date: "`r Sys.Date()`"
 output: distill::distill_article
-
+categories:
+- CEO
+- Decision Making
+#draft: false
 ---
 
 

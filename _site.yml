@@ -1,0 +1,15 @@
+name: "C-CUBES"
+title: "C-CUBES"
+description: |
+  Customer-Based Execution & Strategy
+output_dir: "."
+navbar:
+  logo: 
+    image: images/logo.png
+  right:
+    - text: "Blog"
+      href: index.html
+    - text: "Website"
+      href: https://ccubes.net/
+output: distill::distill_article
+

@@ -1,13 +1,17 @@
 ---
-title: 'Stratonomics Brief 1: Avoiding the Salience Trap'
+title: "Don't Confuse Salience with Importance"
 description: |
-  Shows executives how to use quantitative approaches to avaid the salience traps in decision making.
-date: "05-15-2021"
-output:
-  #word_document: default
-  #pdf_document: default
-  html_document: default
-authors: Hari Sridhar and Vikas Mittal
+  A forum to unpack and share the data science embedded in the C-CUBES philosophy .
+authors:
+  - name: Hari Sridhar, Muzeeb Shaikh, Ashwin Malshe and Vikas Mittal
+    url: https://ccubes.net
+    affiliation: C-CUBES
+    date: "`r Sys.Date()`"
+output: distill::distill_article
+categories:
+- CEO
+- Decision Making
+#draft: false
 ---
 
 
@@ -35,7 +39,7 @@ library("ggplot2")
 
 ```
 
-## Confusing Salience and Importance
+## DOn't Confuse Salience with Importance
 
 In our book **[FOCUS](https://focus-book.net/)**, we narrate the story of FOODCO, a lunch-focused restaurant chain with 22 locations in a major metropolitan city. 
 
@@ -55,7 +59,7 @@ Word cloud is shown below
 
 ```{r fragment1, echo=FALSE, message=FALSE, warning=FALSE, results='hide'}
 
-text <- readLines(file.choose())
+#text <- readLines(file.choose())
 
 # Read the text file from internet
 filePath <- "C:/Users/ssridhar/Dropbox/R_personal/FOODCO.csv"
@@ -178,8 +182,6 @@ A firm’s value proposition and customer value equation should be based on bene
 To counteract the damaging effects of salience and prioritize strategy areas based on importance, executives must first conduct a rigorous analysis. They must clearly define their desired outcome and a set of critical inputs. The inputs’ importance must be calculated based on how strongly each is linked to the desired outcome. The process involves linking performance in different strategy areas to the outcome while statistically controlling for confounding extraneous factors. 
 
 This brief describes the correct approach to measuring the importance of customer benefits and evaluating a firm’s performance as perceived by customers. 
-
-
 
 
 
