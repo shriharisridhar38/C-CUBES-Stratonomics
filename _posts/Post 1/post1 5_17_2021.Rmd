@@ -1,9 +1,15 @@
 ---
 title: "Listening to Customers is Not Enough to Uncover Thier Needs"
 description: |
+<<<<<<< HEAD
   Don't Confuse Salience with Importance.
 authors:
   - name: Hari Sridhar, Vikas Mittal, Muzeeb Shaikh, and Ashwin Malshe
+=======
+  A forum to unpack and share the data science embedded in the C-CUBES philosophy.
+authors:
+  - name: Hari Sridhar, Muzeeb Shaik, Ashwin Malshe and Vikas Mittal
+>>>>>>> 1c2d52e091f8c20f1d266d27014aa098f5a07615
     url: https://ccubes.net
     affiliation: C-CUBES
     date: "`r Sys.Date()`"
