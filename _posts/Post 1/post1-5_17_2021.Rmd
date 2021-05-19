@@ -1,5 +1,5 @@
 ---
-title: "Listening to Customers is Not Enough to Uncover Their Needs"
+title: "Listening to Customers is Not Enough to Uncover Thier Needs"
 description: |
 <<<<<<< HEAD
   Don't Confuse Salience with Importance.
