@@ -75,7 +75,9 @@ As a former chef, FOODCO's owner loved to visit the restaurants when customer we
 #text <- readLines(file.choose())
 
 # Read the text file from internet
-filePath <- "C:/Users/ssridhar/Dropbox/GitHub/Stratonomics/FOODCO.csv"
+#filePath <- "C:/Users/ssridhar/Dropbox/GitHub/Stratonomics/FOODCO.csv"
+filePath <- "D:\\Google Drive\\TAMU\Projets\\Hari\\Ccubes Blog\\C-CUBES-Stratonomics\\_posts\\Post 1\\FOODCO.csv"
+
 text <- readLines(filePath)
 
 # Load the data as a corpus

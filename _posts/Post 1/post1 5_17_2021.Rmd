@@ -4,7 +4,7 @@ description: |
 <<<<<<< HEAD
   Don't Confuse Salience with Importance.
 authors:
-  - name: Hari Sridhar, Vikas Mittal, Muzeeb Shaikh, and Ashwin Malshe
+  - name: Hari Sridhar, Vikas Mittal, Muzeeb Shaik, and Ashwin Malshe
 =======
   A forum to unpack and share the data science embedded in the C-CUBES philosophy.
 authors:
