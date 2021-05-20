@@ -1,25 +1,20 @@
 ---
-title: "Listening to Customers is Not Enough to Uncover Thier Needs"
+title: "Listening to Customers is Not Enough to Uncover Their Needs"
 description: |
-<<<<<<< HEAD
   Don't Confuse Salience with Importance.
-authors:
-  - name: Hari Sridhar, Vikas Mittal, Muzeeb Shaikh, and Ashwin Malshe
-=======
-  A forum to unpack and share the data science embedded in the C-CUBES philosophy.
-authors:
-  - name: Hari Sridhar, Muzeeb Shaik, Ashwin Malshe and Vikas Mittal
->>>>>>> 1c2d52e091f8c20f1d266d27014aa098f5a07615
-    url: https://ccubes.net
-    affiliation: C-CUBES
-    date: "`r Sys.Date()`"
+#authors:
+#  - name: Hari Sridhar, Muzeeb Shaik, Ashwin Malshe and Vikas Mittal
+#>>>>>>> 1c2d52e091f8c20f1d266d27014aa098f5a07615
+#    url: https://ccubes.net
+#    affiliation: C-CUBES
+#    date: "`r Sys.Date()`"
 output: distill::distill_article
 categories:
 - CEO
 - Decision-making
 - Customer value
 
-#draft: false
+draft: TRUE
 ---
 
 
@@ -35,6 +30,11 @@ knitr::opts_chunk$set(echo = TRUE)
 #install.packages("ggforce",repos = "http://cran.us.r-project.org")
 #install.packages("ggplot2",repos = "http://cran.us.r-project.org")
 #install.packages("hwordcloud",repos = "http://cran.us.r-project.org")
+#install.packages("plotly",repos = "http://cran.us.r-project.org")
+#install.packages("gapminder",repos = "http://cran.us.r-project.org")
+#install.packages("readxl",repos = "http://cran.us.r-project.org")
+#install.packages("gganimate",repos = "http://cran.us.r-project.org")
+install.packages("cowplot",repos = "http://cran.us.r-project.org")
 
 # Load
 library("tm")
@@ -46,10 +46,16 @@ library("tibble")
 library("ggforce")
 library("ggplot2")
 library("hwordcloud")
+library("plotly")
+library("gapminder")
+library("readxl")
+library("gganimate")
+library("cowplot")
+
 
 ```
 
-## FOODCO's CEO Confuses Salience and Importance
+## FOODCO's Strategy Dilemma
 
 The book **[FOCUS](https://focus-book.net/)** narrates the story of FOODCO, a lunch-focused restaurant chain with 22 locations in a major metropolitan city. 
 
@@ -75,9 +81,7 @@ As a former chef, FOODCO's owner loved to visit the restaurants when customer we
 #text <- readLines(file.choose())
 
 # Read the text file from internet
-#filePath <- "C:/Users/ssridhar/Dropbox/GitHub/Stratonomics/FOODCO.csv"
-filePath <- "D:\\Google Drive\\TAMU\Projets\\Hari\\Ccubes Blog\\C-CUBES-Stratonomics\\_posts\\Post 1\\FOODCO.csv"
-
+filePath <- "C:/Users/ssridhar/Dropbox/GitHub/C-CUBES-Stratonomics/_posts/Post 1/FOODCO.csv"
 text <- readLines(filePath)
 
 # Load the data as a corpus
@@ -133,13 +137,7 @@ wordcloud2(data=d, size=0.5, color='random-light', minRotation = -pi/6,
 
 The visualization shows that the quality of the menu, tasty food, selection and of items were popular themes in the conversation. **You can scroll over the words to see how frequently they occurred in the conversations**. The visualization also shows that the minutes of wait time and need to reduce the menu came up as popular themes in the conversations. The FOODCO owner recalled the extensive menu and high quality food more than other items. Certain issues resonate with executives due to their own experiences. Since the FOODCO owner is a former chef. When customers talk about food variety and quality, it confirms the restaurant owner’s pre-existing notions (also called  confirmation bias). 
 
-The figure below lists the most frequent words from the interviews. As we can see, the words **quality**, **menu**, and **tasty** are the three most salient aspects of the conversations, further illustrating why FOODCO's CEO argued that the strategy should be based on these items. 
-
-More formally, we can obtain the frequency of the 
-
-Most frequent Words are shown below
-
-
+More formally, we can obtain salience by calculating  the percent occurrence of the most frequent words in the conversations. The figure below lists the most frequent words from the interviews. The most frequent Words are shown below in the bar plot. As we can see, **quality** occurs most frequently constituting **30%** of the sum of the most frequently occurring five words, followed by **menu(26%)**, and **tasty(15)**. This figure further illustrates why FOODCO's CEO argued that the strategy should be based on these items. 
 
 
 ```{r fragment3, echo=FALSE, message=FALSE, warning=FALSE, results='hide'}
@@ -147,8 +145,8 @@ findFreqTerms(dtm, lowfreq = 4)
 findAssocs(dtm, terms = "freedom", corlimit = 0.3)
 head(d, 10)
 
-lbls <- d[1:6,]$word
-mostfreq <- d[1:6,]$freq
+lbls <- d[1:5,]$word
+mostfreq <- d[1:5,]$freq
 pctfreq <- round(mostfreq/sum(mostfreq)*100)
 lbls <- paste(lbls, pctfreq) # add percents to labels
 lbls <- paste(lbls,"%",sep="") # add % to labels
@@ -157,45 +155,66 @@ barplot(pctfreq, las = 2, names.arg = lbls,
         col ="lightblue", main ="Salience of strategic areas",
         ylab = "Percent Occurence of most frequent words",las=3)
 
-#barplot(d[1:10,]$freq, las = 2, names.arg = d[1:10,]$word,
- #       col ="lightblue", main ="Most frequent words",
-  #      ylab = "Word frequencies")
-
 ```
 
 
+Simply basing strategy on informal stakeholder input can be heavily biased for several reasons:
+
+* Individual customers mention issues that are not representative of the customer base. 
+* Certain issues resonate with executives due to their own experiences. When customers talk about food variety and quality, it confirms the restaurant owner’s pre-existing notions as a chef.
+* Executives seek out unstructured conversations with stakeholders who support their pre-existing views. Due to selection bias, they elicit only a narrow selection of views rather than a complete spectrum of views; this reinforces already salient information and ignores novel insights. The CEO of a company in the oilfield services business states: “Safety is critical to our company’s mission—we are very interested in listening to clients so we can learn more about their safety needs.” 
+
+## Understanding the Importance of Customer Needs 
+
+```{r fragment5, echo=FALSE, message=FALSE, warning=FALSE}
+FOODCO_data <- read_excel("C:/Users/ssridhar/Dropbox/GitHub/C-CUBES-Stratonomics/_posts/Post 1/FOODCO_regression.xlsx",col_names=TRUE)
+#FOODCO_data$Wait_time <- as.factor(FOODCO_data$Wait_time)
+#FOODCO_data$Food_quality <- as.factor(FOODCO_data$Food_quality)
+#FOODCO_data$Menu_breadth <- as.factor(FOODCO_data$Menu_breadth)
+#FOODCO_data$Customer_value <- as.factor(FOODCO_data$Customer_value)
+#summary(FOODCO_data)
+
+p1 <- ggplot(FOODCO_data, aes(Food_quality, Customer_value))+geom_point(size=0.5, shape=23,color="blue")+geom_smooth(method=lm,color="blue")
+
+p2 <- ggplot(FOODCO_data, aes(Wait_time, Customer_value))+geom_point(size=0.5, shape=23,color="darkred")+geom_smooth(method=lm,color="darkred")
 
 
-```{r fragment4, echo=FALSE, message=FALSE, warning=FALSE,results="hide"}
-# Probability of Recall of EAch Strategic Area
-slices <- c(55, 35, 5, 5)
-lbls <- c("High quality food", "Expanded menu","Shorter Wait Time", "Parking")
-pct <- round(slices/sum(slices)*100)
-lbls <- paste(lbls, pct) # add percents to labels
-lbls <- paste(lbls,"%",sep="") # ad % to labels
-barplot(slices, las = 2, names.arg = lbls,
-        col ="lightblue", main ="Salience of each strategic area",
-        ylab = "Probability of Recall by FOODCO ownwer")
+plot_grid(p1, p2, labels = "AUTO")
 
+#+ transition_reveal(Customer_value)
+#ggplot(FOODCO_data, aes(Wait_time, Customer_value))+geom_point(size=0.5, shape=23,color="darkred")+geom_smooth(method=lm,color="darkred")
+
+
+
+#fig1 <- plot_ly(FOODCO_data,x=~Food_quality,y=~Customer_value)
+#fig2 <- plot_ly(FOODCO_data,x=~Menu_breadth,y=~Customer_value)
+#fig <- subplot(fig1, fig2)
+#fig
+
+# Make a list of variables you want summary statistics for
+#var_list <- c("Wait_time","Food_quality","Menu_breadth","Customer_value")
+# Make a data.frame containing summary statistics of interest
+#summ_stats <- fBasics::basicStats(FOODCO_data[var_list])
+#summ_stats <- as.data.frame(t(summ_stats))
+# Rename some of the columns for convenience
+#summ_stats <- summ_stats %>% dplyr::select("nobs","Mean", "Stdev", "Minimum", "Maximum")
+#summ_stats <- summ_stats %>% rename('N'= 'nobs')
+```
+
+```{r echo=FALSE }
+#knitr::kable(summ_stats, format = "html")
+#p <- gapminder %>%
+#  filter(year==1977) %>%
+#  ggplot( aes(gdpPercap, lifeExp, size = pop, color=continent)) +
+#  geom_point() +
+#  theme_bw()
+# ggplotly(p)
 ```
 
 
-However, stakeholder input can be heavily biased for several reasons:
+## How FOODCO Based Its Strategy on  Importance
 
-•	Individual customers mention issues that are not representative of the customer base. 
-•	Certain issues resonate with executives due to their own experiences. For example, the FOODCO owner is a former chef. When customers talk about food variety and quality, it confirms the restaurant owner’s pre-existing notions (i.e., confirmation bias).
-•	Executives seek out unstructured conversations with stakeholders who support their pre-existing views. Due to selection bias, they elicit only a narrow selection of views rather than a complete spectrum of views; this reinforces already salient information and ignores novel insights. The CEO of a company in the oilfield services business states: “Safety is critical to our company’s mission—we are very interested in listening to clients so we can learn more about their safety needs.” 
-
-Though widely used in many industries, unstructured conversations do a poor job of eliciting salience because of confirmation and selection biases. Studies have shown that biases cannot be avoided even when using professional interviewers, such as branding experts or qualitative researchers. 
-
-
-
-
-## Mathematical Intuition of Importance
-
-
-
-## Steps in Calculating Importance
+To determine the importance of strategic areas, the restaurant chain conducts a customer study measuring satisfaction with each area as well as overall satisfaction. The strength of association between strategic area satisfaction and overall satisfaction represents the importance of each customer benefit(Figure 1).
 
 To calculate the importance of a strategy factor without mental biases, senior executives at a firm must implement the following steps:
 
@@ -209,34 +228,17 @@ To calculate the importance of a strategy factor without mental biases, senior e
 
 5.	Depict the relative importance of inputs. The percent change in the desired outcome as a result of a unit shift in an input can be used to prioritize strategy areas.
 
-## Deriving Importance from Regression
-
-To determine the importance of strategic areas, the restaurant chain conducts a customer study measuring satisfaction with each area as well as overall satisfaction. The strength of association between strategic area satisfaction and overall satisfaction represents the importance of each customer benefit(Figure 1).
-
 A comparison of Panel A and B in Figure 1 shows that the strategic areas important for customers are not the areas salient to the restaurant-chain owner. Decades of research shows a weak to non-existent correlation between the salience and importance of customer benefits.  
 
+He focused on the many different menu items he believed would preserve FOODCO’s “high quality”—freshly prepared sandwiches, soups, and salads. Yet, customer surveys showed that customers wanted a fast dining experience with a short wait time, a simple menu with few items, ample parking, and a bill lower than $12 per meal, drinks included. 
  
+## Conclusion: Listening to Customers is Not Enough to Develop a Strategy
 
-## Strategy Dilemma at FOODCO
-
-When the lunch-focused restaurant chain FOODCO was hit with stagnating sales, its CEO and owner wanted to improve his strategy. He focused on the many different menu items he believed would preserve FOODCO’s “high quality”—freshly prepared sandwiches, soups, and salads. Yet, customer surveys showed that customers wanted a fast dining experience with a short wait time, a simple menu with few items, ample parking, and a bill lower than $12 per meal, drinks included. The survey results contrasted starkly with the strategy direction FOODCO’s owner charted.
-When FOODCO’s owner read the survey findings, he said, “This validates what has been clear to me all along. We have to lead and not be led. Too often, customers don’t know what they want, and we have to shape their needs. Look at Apple. We need a winning strategy that differentiates our brands, and we can do that by offering the largest selection of freshly prepared foods at the lowest price point in the marketplace.”
-
-
-
-
-
-
-## Salience vs. Importance
-
+A firm’s value proposition and customer value equation should be based on benefits important to its customers and strategic areas in which the customers perceive the firm’s performance as being better than its competitors. Many firms focus only on salient customer benefits through "listening sessions" which risk ignoring truly important benefits. This is a mistake. 
 
 Many salient benefits may not actually be important to customers, and vice versa.  Due to its ease and higher probability of recall, salient information is often incorrectly perceived as being important. Many times, people incorrectly emphasize salient information in their decision-making. The way a job candidate dresses may be salient to an interviewer but it may be completely unimportant for job performance. 
 
 To arrive at a focused and customer-based strategy, executives need to base their strategy on **importance**. The importance of a strategic area is the strength of the association between the strategic area and a desired outcome, such as overall satisfaction, word-of-mouth, or purchase behavior. Many benefits are important to customers, even though they may not be salient.Customers who have read about a local plane crash may consider safety to be a salient issue. But when traveling on a long-haul flight, they may actually find benefits like comfort (seating, legroom, blankets, and pillows) and pricing (tickets, free luggage, and carry-ons allowed) to be the most important drivers of their overall satisfaction with the trip.
-
-## Conclusion: Listening is Not Enough
-
-A firm’s value proposition and customer value equation should be based on benefits important to its customers and strategic areas in which the customers perceive the firm’s performance as being better than its competitors. Many firms focus only on salient customer benefits through "listening sessions" which risk ignoring truly important benefits. This is a mistake. 
 
 To counteract the damaging effects of salience and prioritize strategy areas based on importance, executives must first conduct a rigorous analysis. They must clearly define their desired outcome and a set of critical inputs. The inputs’ importance must be calculated based on how strongly each is linked to the desired outcome. The process involves linking performance in different strategy areas to the outcome while statistically controlling for confounding extraneous factors. 
 
